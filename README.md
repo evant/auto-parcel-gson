@@ -18,14 +18,14 @@ Fine, how do I use it?
 --------
 
 ```java
-@AutoParcel
+@AutoParcelGson
 abstract class SomeModel implements Parcelable {
   abstract String name();
   abstract List<SomeSubModel> subModels();
   abstract Map<String, OtherSubModel> modelsMap();
 
   static SomeModel create(String name, List<SomeSubModel> subModels, Map<String, OtherSubModel> modelsMap) {
-    return new AutoParcel_SomeModel(name, subModels, modelsMap);
+    return new AutoParcelGson_SomeModel(name, subModels, modelsMap);
   }
 }
 ```
