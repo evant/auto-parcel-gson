@@ -17,8 +17,8 @@ if (isReleaseBuild()) {
   sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
 }
 
-def username = project.getProperty("nexusUsername") ?: ""
-def password = project.getProperty("nexusPassword") ?: ""
+def username = project.getProperty("sonatype.username") ?: ""
+def password = project.getProperty("sonatype.password") ?: ""
 
 afterEvaluate { project ->
   uploadArchives {
@@ -32,15 +32,15 @@ afterEvaluate { project ->
 
         pom.project {
           name 'Android AutoParcel Processor'
-          groupId 'com.github.frankiesardo'
-          description 'Port of Google AutoValue for the Android platform'
-          url 'https://github.com/frankiesardo/auto-parcel'
-          inceptionYear '2014'
+          groupId 'me.tatarka'
+          description 'Port of a port of Google AutoValue for the Android platform to work seamlessly with gson'
+          url 'https://github.com/evant/auto-parcel-gson'
+          inceptionYear '2015'
 
           scm {
-            url 'https://github.com/frankiesardo/auto-parcel'
-            connection 'scm:https://frankiesardo@github.com/frankiesardo/auto-parcel.git'
-            developerConnection 'scm:git@github.com:frankiesardo/auto-parcel.git'
+            url 'https://github.com/evant/auto-parcel-gson'
+            connection 'scm:https://evant@github.com/evant/auto-parcel-gson.git'
+            developerConnection 'scm:git@github.com:evant/auto-parcel-gson.git'
           }
 
           licenses {
@@ -53,8 +53,8 @@ afterEvaluate { project ->
 
           developers {
             developer {
-              id 'frankiesardo'
-              name 'Frankie Sardo'
+              id 'evant'
+              name 'Evan Tatarka'
             }
           }
         }
