@@ -18,4 +18,12 @@ subprojects {
   }
 
   project.group = 'com.github.frankiesardo'
+
+  if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+      tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+      }
+    }
+  }
 }
