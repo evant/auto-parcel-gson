@@ -17,12 +17,23 @@ package $pkg;
 import $i;
 #end
 
+#foreach ($a in $classAnnotations)
+
+${a}##
+#end
+
 ${gwtCompatibleAnnotation}
 final class $subclass$formalTypes extends $origClass$actualTypes {
 
 ## Fields
 
 #foreach ($p in $props)
+
+  #foreach ($a in ${p.fieldAnnotations})
+
+  ${a}##
+  #end
+  
   private final $p.type $p;
 #end
 

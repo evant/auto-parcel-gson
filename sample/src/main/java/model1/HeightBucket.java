@@ -1,5 +1,12 @@
 package model1;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum HeightBucket {
-  SHORT, AVERAGE, TALL
+  @SerializedName("short")
+  SHORT,
+  @SerializedName("average")
+  AVERAGE,
+  @SerializedName("tall")
+  TALL
 }

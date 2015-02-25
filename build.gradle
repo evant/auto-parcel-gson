@@ -17,7 +17,7 @@ subprojects {
     mavenLocal()
   }
 
-  project.group = 'com.github.frankiesardo'
+  project.group = 'me.tatarka'
 
   if (JavaVersion.current().isJava8Compatible()) {
     allprojects {

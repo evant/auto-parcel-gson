@@ -38,7 +38,7 @@ import java.lang.annotation.Target;
  * @author Kevin Bourrillion
  * @see <a href="https://github.com/frankiesardo/auto-parcel">AutoParcel User's Guide</a>
  */
-@Retention(RetentionPolicy.SOURCE)
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface AutoParcelGson {
 

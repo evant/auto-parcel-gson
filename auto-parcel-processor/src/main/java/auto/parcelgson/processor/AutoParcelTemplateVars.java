@@ -51,12 +51,24 @@ class AutoParcelTemplateVars extends TemplateVars {
               "import $i;\n" +
               "#end\n" +
               "\n" +
+              "\n" +
+              "#foreach ($a in $classAnnotations)\n" +
+              "\n" +
+              "${a}##\n" +
+              "#end\n" +
+              "\n" +
               "${gwtCompatibleAnnotation}\n" +
               "final class $subclass$formalTypes extends $origClass$actualTypes {\n" +
               "\n" +
               "## Fields\n" +
               "\n" +
               "#foreach ($p in $props)\n" +
+              "\n" +
+              "  #foreach ($a in ${p.fieldAnnotations})\n" +
+              "\n" +
+              "  ${a}##\n" +
+              "  #end\n" +
+              "\n" +
               "  private final $p.type $p;\n" +
               "#end\n" +
               "\n" +
@@ -382,6 +394,9 @@ class AutoParcelTemplateVars extends TemplateVars {
 
   /** The spelling of the java.util.BitSet class: BitSet or java.util.BitSet. */
   String bitSet;
+
+  /** The annotations to apply to the class. */
+  List<String> classAnnotations;
 
   /**
    * The full spelling of the {@code @GwtCompatible} annotation to add to this class, or an empty

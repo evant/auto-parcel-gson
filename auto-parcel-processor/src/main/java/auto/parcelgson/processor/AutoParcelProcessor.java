@@ -15,7 +15,6 @@
  */
 package auto.parcelgson.processor;
 
-import auto.parcelgson.AutoParcelGson;
 import com.google.auto.service.AutoService;
 import com.google.common.base.Functions;
 import com.google.common.base.Joiner;
@@ -64,6 +63,9 @@ import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
+import auto.parcelgson.AutoParcelGson;
+import jdk.internal.dynalink.support.TypeUtilities;
+
 /**
  * Javac annotation processor (compiler plugin) for value types; user code never references this
  * class.
@@ -73,6 +75,14 @@ import javax.tools.JavaFileObject;
  */
 @AutoService(Processor.class)
 public class AutoParcelProcessor extends AbstractProcessor {
+  private static final ImmutableMap<String, String> FIELD_ANNOTATION_MAP = ImmutableMap.<String, String>builder()
+      .put("@auto.parcelgson.gson.annotations.Expose", "@com.google.gson.annotations.Expose")
+      .put("@auto.parcelgson.gson.annotations.JsonAdapter", "@com.google.gson.annotations.JsonAdapter")
+      .put("@auto.parcelgson.gson.annotations.SerializedName", "@com.google.gson.annotations.SerializedName")
+      .put("@auto.parcelgson.gson.annotations.Since", "@com.google.gson.annotations.Since")
+      .put("@auto.parcelgson.gson.annotations.Until", "@com.google.gson.annotations.Until")
+      .build();
+  
   public AutoParcelProcessor() {
   }
 
@@ -169,11 +179,14 @@ public class AutoParcelProcessor extends AbstractProcessor {
    * write {@code $p.type} for a Velocity variable {@code $p} that is a {@code Property}.
    */
   public static class Property {
+    // Map method annotations to field annotations. TODO: Is this the best place to put this?
+
     private final String name;
     private final String identifier;
     private final ExecutableElement method;
     private final String type;
     private final ImmutableList<String> annotations;
+    private final ImmutableList<String> fieldAnnotations;
 
     Property(
         String name,
@@ -185,12 +198,19 @@ public class AutoParcelProcessor extends AbstractProcessor {
       this.identifier = identifier;
       this.method = method;
       this.type = type;
-      this.annotations = buildAnnotations(typeSimplifier);
+
+      ImmutableList.Builder<String> annotationsBuilder = ImmutableList.builder();
+      ImmutableList.Builder<String> fieldAnnotationsBuilder = ImmutableList.builder();
+      
+      buildAnnotations(typeSimplifier, annotationsBuilder, fieldAnnotationsBuilder);
+      
+      this.annotations = annotationsBuilder.build();
+      this.fieldAnnotations = fieldAnnotationsBuilder.build();
     }
 
-    private ImmutableList<String> buildAnnotations(TypeSimplifier typeSimplifier) {
-      ImmutableList.Builder<String> builder = ImmutableList.builder();
-
+    private void buildAnnotations(TypeSimplifier typeSimplifier,
+                                                   ImmutableList.Builder<String> annotationsBuilder,
+                                                   ImmutableList.Builder<String> fieldAnnotationsBuilder) {
       for (AnnotationMirror annotationMirror : method.getAnnotationMirrors()) {
         TypeElement annotationElement =
             (TypeElement) annotationMirror.getAnnotationType().asElement();
@@ -201,10 +221,19 @@ public class AutoParcelProcessor extends AbstractProcessor {
         }
         // TODO(user): we should import this type if it is not already imported
         AnnotationOutput annotationOutput = new AnnotationOutput(typeSimplifier);
-        builder.add(annotationOutput.sourceFormForAnnotation(annotationMirror));
+        String annotationSource = annotationOutput.sourceFormForAnnotation(annotationMirror);
+        boolean foundFieldAnnotation = false;
+        for (Map.Entry<String, String> entry : FIELD_ANNOTATION_MAP.entrySet()) {
+          if (annotationSource.startsWith(entry.getKey())) {
+            fieldAnnotationsBuilder.add(annotationSource.replaceFirst(entry.getKey(), entry.getValue()));
+            foundFieldAnnotation = true;
+            break;
+          }
+        }
+        if (!foundFieldAnnotation) {
+          annotationsBuilder.add(annotationSource);
+        }
       }
-
-      return builder.build();
     }
 
     /**
@@ -276,7 +305,7 @@ public class AutoParcelProcessor extends AbstractProcessor {
           return "Double";
         default:
           throw new RuntimeException("Unknown primitive of kind " + kind);
-        }
+      }
     }
 
     public boolean primitive() {
@@ -285,6 +314,10 @@ public class AutoParcelProcessor extends AbstractProcessor {
 
     public List<String> getAnnotations() {
       return annotations;
+    }
+
+    public List<String> getFieldAnnotations() {
+      return fieldAnnotations;
     }
 
     public boolean isNullable() {
@@ -381,6 +414,29 @@ public class AutoParcelProcessor extends AbstractProcessor {
       }
     }
   }
+  
+  private void findClassAnnotations(TypeElement type, TypeSimplifier typeSimplifier, List<String> annotations) {
+    for (AnnotationMirror annotationMirror : type.getAnnotationMirrors()) {
+      TypeElement annotationElement =
+          (TypeElement) annotationMirror.getAnnotationType().asElement();
+      if (annotationElement.getQualifiedName().toString().equals(Override.class.getName())) {
+        // Don't copy @Override if present, since we will be adding our own @Override in the
+        // implementation.
+        continue;
+      }
+      // TODO(user): we should import this type if it is not already imported
+      AnnotationOutput annotationOutput = new AnnotationOutput(typeSimplifier);
+      String annotationSource = annotationOutput.sourceFormForAnnotation(annotationMirror);
+      for (Map.Entry<String, String> entry : FIELD_ANNOTATION_MAP.entrySet()) {
+        if (annotationSource.startsWith(entry.getValue())) {
+          annotations.add(annotationSource);
+        } else if (annotationSource.startsWith(entry.getKey())) {
+          annotations.add(annotationSource.replace(entry.getKey(), entry.getValue()));
+          break;
+        }
+      }
+    }
+  }
 
   private void processType(TypeElement type) {
     AutoParcelGson autoValue = type.getAnnotation(AutoParcelGson.class);
@@ -447,6 +503,9 @@ public class AutoParcelProcessor extends AbstractProcessor {
     String pkg = TypeSimplifier.packageNameOf(type);
     TypeSimplifier typeSimplifier = new TypeSimplifier(typeUtils, pkg, types, type.asType());
     vars.imports = typeSimplifier.typesToImport();
+    List<String> annotations = new ArrayList<String>();
+    findClassAnnotations(type, typeSimplifier, annotations);
+    vars.classAnnotations = annotations;
     //    vars.generated = typeSimplifier.simplify(javaxAnnotationGenerated);
     vars.arrays = typeSimplifier.simplify(javaUtilArrays);
     vars.bitSet = typeSimplifier.simplifyRaw(getTypeMirror(BitSet.class));
