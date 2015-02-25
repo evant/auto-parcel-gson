@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import auto.parcelgson.AutoParcelGson;
-import auto.parcelgson.gson.AutoParcelGsonTypeAdapterFactory;
-import auto.parcelgson.gson.annotations.JsonAdapter;
 import auto.parcelgson.gson.annotations.SerializedName;
 import model1.HeightBucket;
 import model2.Address;

@@ -1,2 +1,2 @@
-include 'auto-parcel', 'auto-parcel-processor', ':sample'
-rootProject.name = 'auto-parcel-parent'
+include 'auto-parcel-gson', 'auto-parcel-gson-processor', ':sample'
+rootProject.name = 'auto-parcel-gson-parent'

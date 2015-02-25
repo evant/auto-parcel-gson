@@ -12,6 +12,6 @@ android {
 }
 
 dependencies {
-  compile project(':auto-parcel')
-  apt project(':auto-parcel-processor')
+  compile project(':auto-parcel-gson')
+  apt project(':auto-parcel-gson-processor')
 }
