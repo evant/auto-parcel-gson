@@ -1,4 +1,4 @@
-## Template for each generated AutoParcel_Foo class.
+## Template for each generated AutoParcelGson_Foo class.
 ## This template uses the Apache Velocity Template Language (VTL).
 ## The variables ($pkg, $props, and so on) are defined by the fields of MutableAutoParcelTemplateVars.
 ##
