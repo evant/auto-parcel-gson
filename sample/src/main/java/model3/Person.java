@@ -12,7 +12,8 @@ import model2.Address;
 
 @AutoParcelGson
 public abstract class Person implements Parcelable {
-  public static Person create(String name, long id, HeightBucket heightType, Map<String, Address> addresses, List<Person> friends) {
+  public static Person create(String name, long id, HeightBucket heightType, Map<String, Address> addresses,
+                              List<Person> friends) {
     return builder().name(name).id(id).heightType(heightType)
         .addresses(addresses).friends(friends).build();
   }
