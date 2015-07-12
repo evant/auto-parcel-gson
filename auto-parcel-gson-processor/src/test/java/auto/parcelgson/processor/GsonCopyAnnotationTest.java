@@ -123,7 +123,7 @@ public class GsonCopyAnnotationTest extends TestCase {
             "  @Override public int hashCode() {",
             "    int h = 1;",
             "    h *= 1000003;",
-            "    h ^= buh;",
+            "    h ^= this.buh;",
             "    return h;",
             "  }",
             "}"
@@ -174,7 +174,7 @@ public class GsonCopyAnnotationTest extends TestCase {
             "  @Override public int hashCode() {",
             "    int h = 1;",
             "    h *= 1000003;",
-            "    h ^= buh;",
+            "    h ^= this.buh;",
             "    return h;",
             "  }",
             "}"
