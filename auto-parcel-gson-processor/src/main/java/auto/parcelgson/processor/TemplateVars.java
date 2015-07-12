@@ -136,14 +136,6 @@ abstract class TemplateVars {
     return velocityContext;
   }
 
-  static SimpleNode parsedTemplateForResource(String templateStr, String resourceName) {
-    try {
-      return velocityRuntimeInstance.parse(templateStr, resourceName);
-    } catch (ParseException e) {
-      throw new AssertionError(e);
-    }
-  }
-
   static SimpleNode parsedTemplateForResource(String resourceName) {
     InputStream in = AutoParcelTemplateVars.class.getResourceAsStream(resourceName);
     if (in == null) {
