@@ -11,11 +11,7 @@ dependencies {
   compile 'org.apache.velocity:velocity:1.7'
   compile 'org.ow2.asm:asm:4.1'
 
-  if(System.getenv("JAVA_HOME")) {
-    testCompile files(System.getenv("JAVA_HOME") + "/lib/tools.jar")
-  } else {
-    testCompile files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
-  }
+  testCompile files("${System.properties['java.home']}/../lib/tools.jar")
   testCompile 'com.google.guava:guava-testlib:17.0'
   testCompile 'com.google.testing.compile:compile-testing:0.6'
   testCompile 'com.google.android:android:4.1.1.4'
