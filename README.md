@@ -69,7 +69,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:0.14.4'
+    classpath 'com.android.tools.build:gradle:+'
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
   }
 }
@@ -78,7 +78,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 
 dependencies {
-<<<<<<< HEAD
   compile 'me.tatarka:auto-parcel-gson:0.1'
   apt 'me.tatarka:auto-parcel-gson-processor:0.1'
 }
