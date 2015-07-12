@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
  *     static Person create(String name, int id) {
  *       return new AutoParcelGson_Person(name, id);
  *     }
- * <p/>
+ *
  *     abstract String name();
  *     abstract int id();
  *   }</pre>
@@ -47,16 +47,16 @@ public @interface AutoParcelGson {
    * to serve as a <i>builder</i> for the value-type class it is nested within. As a simple example,
    * here is an alternative way to write the {@code Person} class mentioned in the {@link AutoParcelGson}
    * example: <pre>
-   * <p/>
+   *
    *   &#64;AutoParcel
    *   abstract class Person {
    *     static Builder builder() {
    *       return new AutoParcelGson_Person.Builder();
    *     }
-   * <p/>
+   *
    *     abstract String name();
    *     abstract int id();
-   * <p/>
+   *
    *     &#64;AutoParcel.Builder
    *     interface Builder {
    *       Builder name(String x);
@@ -64,7 +64,7 @@ public @interface AutoParcelGson {
    *       Person build();
    *     }
    *   }</pre>
-   * <p/>
+   *
    * <p><b>This API is provisional and subject to change.</b></p>
    *
    * @author Éamonn McManus

@@ -66,23 +66,30 @@ The easy way is to use Gradle.
 buildscript {
   repositories {
     mavenCentral()
+    jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:+'
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:+'
+    classpath 'com.android.tools.build:gradle:0.14.4'
+    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
   }
 }
 
-apply plugin: 'android'
-apply plugin: 'android-apt'
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 dependencies {
+<<<<<<< HEAD
   compile 'me.tatarka:auto-parcel-gson:0.1'
   apt 'me.tatarka:auto-parcel-gson-processor:0.1'
 }
+
+repositories {
+  mavenCentral()
+  jcenter()
+}
 ```
 
-I recommend using the `android-apt` plugin so that Android Studio picks up the generated files.
+I recommend using the [`android-apt`](https://bitbucket.org/hvisser/android-apt) plugin so that Android Studio picks up the generated files.
 Check out the sample project for a working example.
 
 License
