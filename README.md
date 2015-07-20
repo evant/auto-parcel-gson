@@ -43,7 +43,7 @@ abstract class SomeModel implements Parcelable {
 
 ...
 
-Gson gson = new GsonBuilder().registerTypeAdapter(new AutoParcelGsonTypeAdapterFactory()).create();
+Gson gson = new GsonBuilder().registerTypeAdapterFactory(new AutoParcelGsonTypeAdapterFactory()).create();
 SomeModel = gson.fromJson(jsonModel, SomeModel.class);
 ```
 
