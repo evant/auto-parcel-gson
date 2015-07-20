@@ -17,8 +17,8 @@ if (isReleaseBuild()) {
   sonatypeRepositoryUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
 }
 
-def username = project.getProperty("sonatype.username") ?: ""
-def password = project.getProperty("sonatype.password") ?: ""
+def username = project.hasProperty("sonatype.username") ? project.getProperty("sonatype.username") : ""
+def password = project.hasProperty("sonatype.password") ? project.getProperty("sonatype.password") : ""
 
 afterEvaluate { project ->
   uploadArchives {
