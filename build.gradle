@@ -1,29 +1,35 @@
-subprojects {
-  buildscript {
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
     repositories {
-      mavenCentral()
+        mavenCentral()
+        jcenter()
     }
     dependencies {
-      classpath 'com.android.tools.build:gradle:1.1.0'
-      classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+        classpath 'com.android.tools.build:gradle:1.2.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
     }
-  }
+}
 
-  repositories {
-    mavenCentral()
-    maven {
-      url "https://oss.sonatype.org/content/repositories/snapshots/"
+allprojects {
+    repositories {
+        jcenter()
     }
-    mavenLocal()
-  }
 
   project.group = 'me.tatarka'
 
   if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
       tasks.withType(Javadoc) {
         options.addStringOption('Xdoclint:none', '-quiet')
       }
-    }
   }
+
+  /* Prevents sporadic compilation error:
+   * 'Bad service configuration file, or exception thrown while constructing
+   *  Processor object: javax.annotation.processing.Processor: Error reading
+   *  configuration file'
+   *
+   * See https://discuss.gradle.org/t/gradle-not-compiles-with-solder-tooling-jar/7583/20
+   */
+  tasks.withType(JavaCompile) { options.fork = true }
 }

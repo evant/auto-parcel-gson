@@ -64,7 +64,6 @@ import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 
 import auto.parcelgson.AutoParcelGson;
-import jdk.internal.dynalink.support.TypeUtilities;
 
 /**
  * Javac annotation processor (compiler plugin) for value types; user code never references this
@@ -370,7 +369,7 @@ public class AutoParcelProcessor extends AbstractProcessor {
         break;
       case 2:
         if (name.equals("writeToParcel")
-            && method.getParameters().get(0).asType().toString().equals("android.os.Parcelable")
+            && method.getParameters().get(0).asType().toString().equals("android.os.Parcel")
             && method.getParameters().get(1).asType().toString().equals("int")) {
           return ObjectMethodToOverride.WRITE_TO_PARCEL;
         }
@@ -672,7 +671,7 @@ public class AutoParcelProcessor extends AbstractProcessor {
           // This could reasonably be an error, were it not for an Eclipse bug in
           // ElementUtils.override that sometimes fails to recognize that one method overrides
           // another, and therefore leaves us with both an abstract method and the subclass method
-          // that overrides it. This shows up in AutoParcelTest.LukesBase for example.
+          // that overrides it. This shows up in AutoParcelGsonTest.LukesBase for example.
           errorReporter.reportWarning("AutoParcelGson classes cannot have abstract methods other than"
               + " property getters and Builder converters", method);
         }
