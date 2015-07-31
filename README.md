@@ -91,6 +91,14 @@ repositories {
 I recommend using the [`android-apt`](https://bitbucket.org/hvisser/android-apt) plugin so that Android Studio picks up the generated files.
 Check out the sample project for a working example.
 
+Proguard
+--------
+The Gson TypeAdapter uses reflection to map your abstract classes to the AutoParcelGson implementations. If you are using proguard you need to keep the classes.
+```
+ -keep class **.AutoParcelGson_*
+ -keepnames @auto.parcelgson.AutoParcelGson class *
+ ```
+
 License
 -------
 
