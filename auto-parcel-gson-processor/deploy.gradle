@@ -1,7 +1,7 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-version = "0.3.2-SNAPSHOT"
+version = "0.2"
 
 def isReleaseBuild() {
   !version.contains("SNAPSHOT")
