@@ -12,4 +12,6 @@ android {
 dependencies {
   compile project(':auto-parcel-gson')
   apt project(':auto-parcel-gson-processor')
+
+  testCompile 'junit:junit:4.12'
 }
