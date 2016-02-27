@@ -59,12 +59,15 @@ import java.lang.annotation.Target;
  * <p>NOTE: The value you specify in this annotation must be a valid JSON field name.</p>
  *
  * @see com.google.gson.FieldNamingPolicy
+ * @deprecated Gson's {@link com.google.gson.annotations.SerializedName} now supports annotating methods. Use that one
+ * instead.
  *
  * @author Inderjeet Singh
  * @author Joel Leitch
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.METHOD)
+@Deprecated
 public @interface SerializedName {
 
   /**

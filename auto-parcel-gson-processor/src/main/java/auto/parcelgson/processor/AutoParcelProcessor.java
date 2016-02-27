@@ -78,6 +78,7 @@ public class AutoParcelProcessor extends AbstractProcessor {
       .put("@auto.parcelgson.gson.annotations.Expose", "@com.google.gson.annotations.Expose")
       .put("@auto.parcelgson.gson.annotations.JsonAdapter", "@com.google.gson.annotations.JsonAdapter")
       .put("@auto.parcelgson.gson.annotations.SerializedName", "@com.google.gson.annotations.SerializedName")
+      .put("@com.google.gson.annotations.SerializedName", "@com.google.gson.annotations.SerializedName")
       .put("@auto.parcelgson.gson.annotations.Since", "@com.google.gson.annotations.Since")
       .put("@auto.parcelgson.gson.annotations.Until", "@com.google.gson.annotations.Until")
       .build();
