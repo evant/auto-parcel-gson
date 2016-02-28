@@ -241,6 +241,13 @@ public class GsonCopyAnnotationTest extends TestCase {
         ImmutableList.of("@com.google.gson.annotations.SerializedName(value=\"foo\")"));
   }
 
+  public void testGsonSerializeNameAnnotation() {
+    assertGeneratedMatchesForField(
+        ImmutableList.of("import com.google.gson.annotations.SerializedName;"),
+        ImmutableList.of("@SerializedName(\"foo\")"),
+        ImmutableList.of("@com.google.gson.annotations.SerializedName(value=\"foo\")"));
+  }
+
   public void testJsonAdapterAnnotation() {
     assertGeneratedMatchesForField(
         ImmutableList.of("import auto.parcelgson.gson.annotations.JsonAdapter;"),
