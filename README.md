@@ -3,6 +3,8 @@ Android AutoParcelGson
 
 Port of Google AutoValue for Android with Parcelable generation goodies _and_ [gson](https://code.google.com/p/google-gson/).
 
+**Note:** Depending on your needs may want to use [gsonvalue](https://github.com/evant/gsonvalue) instead. While it doesn't support *all* of gson's features, it solved the problem of it bypassing autovalue's null checks as well as any other invariants you might want to add.
+
 Why AutoValue?
 --------
 
