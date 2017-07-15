@@ -72,16 +72,14 @@ buildscript {
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:+'
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
   }
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
 
 dependencies {
   compile 'me.tatarka:auto-parcel-gson:0.1'
-  apt 'me.tatarka:auto-parcel-gson-processor:0.1'
+  annotationProcessor 'me.tatarka:auto-parcel-gson-processor:0.1'
 }
 
 repositories {
@@ -89,9 +87,6 @@ repositories {
   jcenter()
 }
 ```
-
-I recommend using the [`android-apt`](https://bitbucket.org/hvisser/android-apt) plugin so that Android Studio picks up the generated files.
-Check out the sample project for a working example.
 
 Proguard
 --------
